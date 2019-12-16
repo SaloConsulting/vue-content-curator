@@ -1,6 +1,10 @@
 <template>
   <div>
     <h1>Shopping list</h1>
+  <div>
+    tutorial is made here: <br />
+    https://medium.com/js-dojo/how-i-made-it-easy-to-develop-on-vue-js-with-server-side-rendering-fdeebdd7e8d8
+  </div>
 
     <div v-for="o in shirts" v-bind:key="o.id" :class="$style.item">
       <span>{{ o.name }} (ID: {{o.id}})</span> <br />
