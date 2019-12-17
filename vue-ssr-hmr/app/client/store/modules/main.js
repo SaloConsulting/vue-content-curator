@@ -49,7 +49,8 @@ export default {
     },
     ['REMOVE_ITEM_CART'](state, obj ) {
       //Remove item from cart
-      state.CART = state.CART.filter(item => item.cartID !== obj.cartID);
+      //state.CART = state.CART.filter(item => item.cartID !== obj.cartID);
+      state.CART = state.CART.filter(item => item.id !== obj.id);
       //Set false to inCart the object in shirt list
       for (var key in state.SHIRTS) {
         if(state.SHIRTS[key].id == obj.id){

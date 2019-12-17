@@ -6,12 +6,26 @@
         {{o.name}} <button @click="AddToCart(o)">Add To Cart</button>
       </span>
     </div>
-    <div v-for="o in shirts" v-bind:key="o.id" :class="$style.item">
-      {{o}}
-      <span>{{ o.name }} (ID: {{o.id}})</span> <br />
-      <span>{{ o.type }}</span> <br />
-      <br /><br />
-    </div>
+    <hr>
+    <hr>
+    <hr>
+<main :class="$style.cards">
+  <div v-for="o in shirts" v-bind:key="o.id">
+  <img v-bind:src="o.image">
+  <div :class="$style.meta">
+      <span :class="$style.info">
+        HEjsan
+      </span>
+      <span :class="$style.addToCart" v-if="o.inCart">
+        <button @click="RemoveFromCart(o)">{{o.inCart}}</button>
+      </span>
+      <span :class="$style.addToCart" v-if="!o.inCart">
+        <button @click="AddToCart(o)">Add</button>
+      </span>
+  </div>
+  </div>
+</main>
+
 <hr>
     
     <div v-for="item in items" v-bind:key="item.id" :class="$style.item">
@@ -59,6 +73,7 @@ export default {
     ...mapState({
       items:  state => state.main.items,
       shirts: state => state.main.SHIRTS,
+      cart: state => state.main.CART,
     }),
   },
   serverPrefetch() {
@@ -89,6 +104,9 @@ export default {
     AddToCart(shirt){
       this.$store.dispatch("ACTION_ITEM_CART", shirt);
     },
+    RemoveFromCart(shirt){
+      return this.$store.commit("REMOVE_ITEM_CART", shirt );
+    },
 
     onChangeTitle(e) {
       this.$data.title = e.target.value;
@@ -109,4 +127,36 @@ export default {
 .controls {
   margin-top: 12px;
 }
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    flex-direction: row;
+    max-height: 100vh;
+  }
+  .cards img {
+    border: 3px solid grey;
+    box-shadow: 3px 3px 8px 0px rgba(0,0,0,0.3); 
+    width: 200px;
+  }
+  .cards div {
+    background-color: red;
+    padding: 1rem;
+  }
+  .cards div .meta{
+    background-color: yellow;
+    display: flex;
+  }
+
+  .cards div .info{
+    flex-basis: 100%;
+    background-color: blue;
+    padding: .4rem;
+  }
+  .cards div .addToCart{
+    background-color: green;
+    padding: .4rem;
+  }
+
 </style>
