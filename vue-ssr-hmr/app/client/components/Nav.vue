@@ -1,9 +1,12 @@
 <template>
   <div style="padding-top:30px;">
+    <div>
+      <!-- {{cart}} -->
+    </div>
       <div :class="$style.linksImage">
         <router-link to="/cart">
         <img src="https://cdn.onlinewebfonts.com/svg/img_290616.png"/>
-        <span>{{itemLength}}</span>
+        <span>{{cart.length}}</span>
         </router-link> 
       </div>
     <div :class="$style.links">
@@ -14,11 +17,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import {
-  MAIN__ITEM_ADD,
-  MAIN__ITEM_ADD_ASYNC,
-  MAIN__ITEM_DELELE,
-} from '../store/const/main';
 
 export default {
   metaInfo: {
@@ -31,7 +29,7 @@ export default {
   },
   computed: {
     ...mapState({
-      itemLength: state => state.main.items.length,
+      cart: state => state.main.CART,
     }),
   },
   mounted: () => {
@@ -61,14 +59,19 @@ export default {
 .linksImage{
     /* background-color: red; */
     float: right;
+    padding: 1rem;
 }
 .linksImage img{
     height: 3.3rem;
 }
+.linksImage:hover{
+    background-color: whitesmoke;
+    border-radius: 10%;
+}
 .linksImage span{
-    position: fixed;
-    top: 33px;
-    right: 14px;
+    position: absolute;
+    top: 38px;
+    right: 16px;
     background-color: yellow;
     font-size: 1.2rem;
     font-weight: bold;

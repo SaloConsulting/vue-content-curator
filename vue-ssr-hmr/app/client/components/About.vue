@@ -2,6 +2,10 @@
   <div>
     <h1>{{header_title}}</h1>
     <div>
+      tutorial is made here: <br />
+      https://medium.com/js-dojo/how-i-made-it-easy-to-develop-on-vue-js-with-server-side-rendering-fdeebdd7e8d8
+    </div>
+    <div>
       It is boilerplate of VueJS application. It includes:
       <ul>
         <li>Server-side rendering (SSR)</li>
@@ -48,21 +52,6 @@ export default {
   methods: {
     metaInfo() {
       console.log('you are a mother fucker');
-        var obj = [];
-        var xmlhttp;
-        // compatible with IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function(){
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200){   
-              var myJSON = JSON.parse(xmlhttp.responseText);
-              console.log(myJSON);
-              console.log(myJSON.data.Shirts);
-            }
-        }
-        //xmlhttp.open("GET", 'https://salomonsson.it/SALOCONSULTING/API/api_most_popular_tags.php', true);
-        xmlhttp.open("GET", 'http://www.salomonsson.it/SALOCONSULTING/API/f-e/mock-shirts.php', true);
-        xmlhttp.send();
-
     },
   },
 };

@@ -1,12 +1,22 @@
 <template>
   <div>
-    <h1>{{header_title}}</h1>
-    <div>
+  <h1>{{header_title}}</h1>
+  <div>
+    <div v-for="o in cart" v-bind:key="o.id" :class="$style.gallery">
+      <a target="_blank" href="img_5terre.jpg">
+        <img v-bind:src="o.image" width="600" height="400">
+      </a>
+      <div :class="$style.desc">
+        {{o.name}} <button @click="RemoveFromCart(o)">Remove from Cart</button>
+      </div>
     </div>
+  </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   metaInfo: {
     title: 'CART page',
@@ -17,13 +27,13 @@ export default {
     };
   },
   computed: {
-
+    ...mapState({
+      cart: state => state.main.CART,
+    }),
   },
-
   mounted: () => {
     console.log('Mounted');
   },
-
   serverPrefetch() {
     console.log('Run only on server');
   },
@@ -36,22 +46,34 @@ export default {
   methods: {
     metaInfo() {
       console.log('you are a mother fucker');
-        var obj = [];
-        var xmlhttp;
-        // compatible with IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function(){
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200){   
-              var myJSON = JSON.parse(xmlhttp.responseText);
-              console.log(myJSON);
-              console.log(myJSON.data.Shirts);
-            }
-        }
-        //xmlhttp.open("GET", 'https://salomonsson.it/SALOCONSULTING/API/api_most_popular_tags.php', true);
-        xmlhttp.open("GET", 'http://www.salomonsson.it/SALOCONSULTING/API/f-e/mock-shirts.php', true);
-        xmlhttp.send();
-
+    },
+    RemoveFromCart(shirt){
+      return this.$store.commit("REMOVE_ITEM_CART", shirt );
     },
   },
 };
 </script>
+
+<style module>
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+
+</style>

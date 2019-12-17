@@ -1,12 +1,13 @@
 <template>
   <div>
     <h1>Shopping list</h1>
-  <div>
-    tutorial is made here: <br />
-    https://medium.com/js-dojo/how-i-made-it-easy-to-develop-on-vue-js-with-server-side-rendering-fdeebdd7e8d8
-  </div>
-
+    <div>
+      <span v-for="o in shirts" v-bind:key="o.id" style="padding-left:20px;">
+        {{o.name}} <button @click="AddToCart(o)">Add To Cart</button>
+      </span>
+    </div>
     <div v-for="o in shirts" v-bind:key="o.id" :class="$style.item">
+      {{o}}
       <span>{{ o.name }} (ID: {{o.id}})</span> <br />
       <span>{{ o.type }}</span> <br />
       <br /><br />
@@ -40,25 +41,23 @@ export default {
   metaInfo: {
     title: 'Main page',
   },
+  props:{
+  },
   data() {
     return {
       title: 'Default title',
     };
   },
   created(){
-    console.log('CREATED');
-    //this.$store.dispatch('GET_ALL_SHIRTS');
   },
-  mounted(){
-    console.log('Mounted - main.vue');
-    this.$store.dispatch("GET_ALL_SHIRTS", { self: this });
-  }, 
+  mounted: () => {
+  },
   computed: {
     // ...mapGetters({
     //   AllShirtsCollection: state => state.main.mapGetters.SHIRTS,
     // }),
     ...mapState({
-      items: state => state.main.items,
+      items:  state => state.main.items,
       shirts: state => state.main.SHIRTS,
     }),
   },
@@ -68,7 +67,6 @@ export default {
 
   methods: {
     addAsyncItem() {
-
       const item = {
         id: Math.floor(Math.random() * 100),
         title: this.$data.title,
@@ -84,6 +82,14 @@ export default {
 
       return this.$store.commit(MAIN__ITEM_ADD, { item });
     },
+
+    /**
+     * Add shirt to cart through vuex state.
+     */
+    AddToCart(shirt){
+      this.$store.dispatch("ACTION_ITEM_CART", shirt);
+    },
+
     onChangeTitle(e) {
       this.$data.title = e.target.value;
     },

@@ -19,6 +19,7 @@
     "@babel/core": "^7.4.5",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
+    "axios": "^0.19.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.0.0",
@@ -56,5 +57,8 @@
     "vue-hot-reload-api": "^2.3.3",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.5.1"
-  }
+  },
+  "description": "Demo: https://vue-ssr-hmr.herokuapp.com/",
+  "keywords": [],
+  "author": ""
 }

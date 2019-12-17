@@ -20,8 +20,9 @@ export default {
   computed: {
 
   },
-  mounted: () => {
+  mounted(){
     console.log('Mounted app.vue');
+    this.$store.dispatch("GET_ALL_SHIRTS", { self: this });
   },
   serverPrefetch() {
     console.log('Run only on server');

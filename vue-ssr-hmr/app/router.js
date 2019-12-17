@@ -1,11 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import VueMeta from 'vue-meta';
+import axios from 'axios'
+
 
 import routes from './routes';
 
 Vue.use(Router);
 Vue.use(VueMeta);
+Vue.use(axios);
+
 
 export function createRouter() {
   return new Router({
