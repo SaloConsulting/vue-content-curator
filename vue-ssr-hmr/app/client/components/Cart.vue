@@ -2,6 +2,9 @@
   <div>
   <h1>{{header_title}}</h1>
   <div>
+    <div>
+      Cart Total {{totalPriceCart}}
+    </div>
     <div v-for="o in cart" v-bind:key="o.id" :class="$style.gallery">
       <a target="_blank" href="img_5terre.jpg">
         <img v-bind:src="o.image" width="600" height="400">
@@ -23,8 +26,11 @@ export default {
   },
   data() {
     return {
-      header_title: 'CART!!! page', 
+      header_title: 'CART!!!',
+      totalPriceCart: 0,
     };
+  },
+  props:{
   },
   computed: {
     ...mapState({
@@ -32,23 +38,31 @@ export default {
     }),
   },
   mounted: () => {
-    console.log('Mounted');
   },
   serverPrefetch() {
     console.log('Run only on server');
   },
 
   created: function() {
-      console.log('hej created');
-      this.metaInfo();
+      this.TotalPrice();
   },
   
   methods: {
-    metaInfo() {
-      console.log('you are a mother fucker');
+    TotalPrice() {
+      var localCartArray = Array();
+      localCartArray = this.$store.state.main.CART;
+      var total = 0;
+      for (var key in localCartArray) {
+        // skip loop if the property is from prototype
+        if (!localCartArray.hasOwnProperty(key)) continue;
+          total += parseInt(localCartArray[key].price, 10);
+      }
+      this.totalPriceCart = total;
     },
     RemoveFromCart(shirt){
-      return this.$store.commit("REMOVE_ITEM_CART", shirt );
+      //Update the global state cart
+      this.$store.commit("REMOVE_ITEM_CART", shirt );
+      this.TotalPrice();
     },
   },
 };

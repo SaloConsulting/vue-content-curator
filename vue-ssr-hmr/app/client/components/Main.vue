@@ -94,7 +94,6 @@ export default {
         id: Math.floor(Math.random() * 100),
         title: this.$data.title,
       };
-
       return this.$store.commit(MAIN__ITEM_ADD, { item });
     },
 

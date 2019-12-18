@@ -56,7 +56,7 @@ export default {
         if(state.SHIRTS[key].id == obj.id){
           state.SHIRTS[key].inCart = false;
         }
-      }
+      }      
     },
     ['UPDATE_SHIRT_ITEM'](state, obj ) {
       for (var key in state.SHIRTS) {

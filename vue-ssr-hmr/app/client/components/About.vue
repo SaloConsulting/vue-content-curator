@@ -7,6 +7,14 @@
     </div>
     <div>
       It is boilerplate of VueJS application. It includes:
+      
+      <ul>
+        <li><b>How to start this app.</b></li>
+        <li>npm run start-node</li>
+        <li>npm run dev --listen</li>
+      </ul>
+        
+      <hr>
       <ul>
         <li>Server-side rendering (SSR)</li>
         <li>Single page application</li>
