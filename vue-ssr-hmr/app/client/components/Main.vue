@@ -1,31 +1,70 @@
 <template>
   <div>
-    <h1>Shopping list</h1>
+    <h1>Shirts and jumpers</h1>
     <div>
-      <span v-for="o in shirts" v-bind:key="o.id" style="padding-left:20px;">
-        {{o.name}} <button @click="AddToCart(o)">Add To Cart</button>
+      sorted active:: {{sortedActive}}<br />
+      <button @click="cancelSort()" style="float:right;height:3rem;background-color:yellow;">Clear Sorting</button>
+      <br />
+      <!-- {{Sorted_list_computed}} -->
+      <span v-for="o in colours" v-bind:key="o" style="padding-left:20px;">
+        <button @click="SortColours(o)">{{o}}</button>
       </span>
     </div>
     <hr>
     <hr>
     <hr>
-<main :class="$style.cards">
-  <div v-for="o in shirts" v-bind:key="o.id">
-  <img v-bind:src="o.image">
-  <div :class="$style.meta">
-      <span :class="$style.info">
-        HEjsan
-      </span>
-      <span :class="$style.addToCart" v-if="o.inCart">
-        <button @click="RemoveFromCart(o)">{{o.inCart}}</button>
-      </span>
-      <span :class="$style.addToCart" v-if="!o.inCart">
-        <button @click="AddToCart(o)">Add</button>
-      </span>
-  </div>
-  </div>
-</main>
+    <main :class="$style.cards" v-if="!sortedActive">
+      <div v-for="o in shirts" v-bind:key="o.id">
+          <img v-bind:src="o.image">
+          <div :class="$style.meta">
+              <span :class="$style.info">
+                {{o.name}}, {{o.type}}
+              </span>
+              <span :class="$style.addToCart">
+                {{o.price}}:-
+              </span>
+          </div>
+          <div :class="$style.meta">
+              <span :class="$style.info">
+                Dont know
+              </span>
+              <span :class="$style.addToCart" v-if="o.inCart">
+                <button @click="RemoveFromCart(o)">{{o.inCart}}</button>
+                <span :class="$style.yellowDot"></span>
+              </span>
+              <span :class="$style.addToCart" v-if="!o.inCart">
+                <button @click="AddToCart(o)">Add</button>
+              </span>
+          </div>
+      </div>
+    </main>
+  
 
+    <main :class="$style.cards" v-if="sortedActive">
+      <div v-for="o in Sorted_list_computed" v-bind:key="o.id">
+          <!-- <img v-bind:src="o.image"> -->
+          <div :class="$style.meta">
+              <span :class="$style.info">
+                {{o.name}}, {{o.type}}
+              </span>
+              <span :class="$style.addToCart">
+                {{o.price}}:-
+              </span>
+          </div>
+          <div :class="$style.meta">
+              <span :class="$style.info">
+                Dont know
+              </span>
+              <span :class="$style.addToCart" v-if="o.inCart">
+                <button @click="RemoveFromCart(o)">{{o.inCart}}</button>
+                <span :class="$style.yellowDot"></span>
+              </span>
+              <span :class="$style.addToCart" v-if="!o.inCart">
+                <button @click="AddToCart(o)">Add</button>
+              </span>
+          </div>
+      </div>
+    </main>
 <hr>
     
     <div v-for="item in items" v-bind:key="item.id" :class="$style.item">
@@ -56,13 +95,14 @@ export default {
     title: 'Main page',
   },
   props:{
+    
   },
   data() {
     return {
       title: 'Default title',
+      sortedList: [],
+      sortedActive: false,
     };
-  },
-  created(){
   },
   mounted: () => {
   },
@@ -74,8 +114,19 @@ export default {
       items:  state => state.main.items,
       shirts: state => state.main.SHIRTS,
       cart: state => state.main.CART,
+      colours: state => state.main.COLOURS,
     }),
+    Sorted_list_computed(){
+      
+      // return this.shirts;
+      return this.sortedList;
+    },
   },
+  
+  created: function() {
+
+  },
+
   serverPrefetch() {
     console.log('Run only on server');
   },
@@ -103,29 +154,65 @@ export default {
     AddToCart(shirt){
       this.$store.dispatch("ACTION_ITEM_CART", shirt);
     },
+
+
     RemoveFromCart(shirt){
       return this.$store.commit("REMOVE_ITEM_CART", shirt );
     },
 
+
     onChangeTitle(e) {
       this.$data.title = e.target.value;
     },
+
+
     onRemoveItem(e) {
       const id = +e.target.getAttribute('data-id');
       return this.$store.commit(MAIN__ITEM_DELELE, { id });
     },
+
+
+
+    cancelSort(){
+      console.log('hej cancelSort');
+      this.sortedActive = false;
+    },
+  
+    SortColours(color){
+      this.sortedActive = true;
+
+      console.log('shit is sorted - NOW LETS SORT ON THE PARAMETER');
+      //this.clear();
+      var localCartArray  = Array();
+      localCartArray = this.$store.state.main.SHIRTS;
+      this.sortedList = [];
+
+      for (var key in localCartArray) {
+        // skip loop if the property is from prototype
+        if (!localCartArray.hasOwnProperty(key)) continue;
+          if(localCartArray[key].name == color){
+           // console.log(localCartArray[key].name);
+            this.sortedList.push(localCartArray[key]);
+          }
+      }
+
+      console.log('has been sorted::');
+      console.log(this.sortedList);
+      // this.shirt = o;
+    },
+
   },
 };
 </script>
 
 <style module>
-.item {
-  padding: 3px 0;
-}
+  .item {
+    padding: 3px 0;
+  }
 
-.controls {
-  margin-top: 12px;
-}
+  .controls {
+    margin-top: 12px;
+  }
 
   .cards {
     display: flex;
@@ -158,4 +245,11 @@ export default {
     padding: .4rem;
   }
 
+  .yellowDot{
+    background-color:yellow;
+    border: 1px solid black;
+    position:absolute;
+    height:10px;
+    width:10px
+  }
 </style>

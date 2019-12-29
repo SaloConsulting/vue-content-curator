@@ -1,16 +1,17 @@
 <template>
   <div>
   <h1>{{header_title}}</h1>
-  <div>
+  <div style="padding:4rem;border:1px solid black;display: flow-root;" class="container">
     <div>
-      Cart Total {{totalPriceCart}}
+      Cart has <b>{{cart.length}}</b> and total price is <b>{{totalPriceCart}}:-</b>
     </div>
     <div v-for="o in cart" v-bind:key="o.id" :class="$style.gallery">
       <a target="_blank" href="img_5terre.jpg">
         <img v-bind:src="o.image" width="600" height="400">
       </a>
       <div :class="$style.desc">
-        {{o.name}} <button @click="RemoveFromCart(o)">Remove from Cart</button>
+        {{o.name}} {{o.type}}, {{o.price}}:-
+        <br /><button @click="RemoveFromCart(o)">Remove from Cart</button>
       </div>
     </div>
   </div>
@@ -26,7 +27,7 @@ export default {
   },
   data() {
     return {
-      header_title: 'CART!!!',
+      header_title: 'Overview of cart',
       totalPriceCart: 0,
     };
   },

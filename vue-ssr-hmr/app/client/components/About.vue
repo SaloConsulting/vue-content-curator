@@ -12,6 +12,7 @@
         <li><b>How to start this app.</b></li>
         <li>npm run start-node</li>
         <li>npm run dev --listen</li>
+        <li>http://localhost:3000/</li>
       </ul>
         
       <hr>

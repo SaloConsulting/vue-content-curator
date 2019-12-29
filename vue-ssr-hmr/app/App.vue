@@ -22,6 +22,7 @@ export default {
   },
   mounted(){
     console.log('Mounted app.vue');
+    this.$store.dispatch("GET_ALL_COLOURS", { self: this });
     this.$store.dispatch("GET_ALL_SHIRTS", { self: this });
   },
   serverPrefetch() {
