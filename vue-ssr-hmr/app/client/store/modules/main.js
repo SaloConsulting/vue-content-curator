@@ -7,7 +7,9 @@ import {
 export default {
   state: {
     CART: [],
+    SHIRTS_DEFAULT: [],
     SHIRTS: [],
+    SHIRTS_SORTED: [],
     COLOURS: [],
     items: [
       {
@@ -82,25 +84,37 @@ export default {
       items.push(OBJECT);
       state.CART = items;
     },
-    ['MAIN__SORTCOLOURS'](state, arrayItems ) {
-      console.log('FROM THE STORE!! - MAIN__SORTCOLOURS');
-      
+    ['MAIN__SORTCOLOURS_NAMES'](state, arrayItems ) {
       var color = new Array();
-     for (var key in arrayItems.Shirts) {
-        // skip loop if the property is from prototype
-        if (!arrayItems.Shirts.hasOwnProperty(key)) continue;
-          //Check if name/colours already exsist
-          color.push(arrayItems.Shirts[key].name);
-      }
-      var uniqueNames = [];
-      $.each(color, function(i, el){
-        if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
-      });
-      state.COLOURS = uniqueNames;
+      for (var key in arrayItems.Shirts) {
+          // skip loop if the property is from prototype
+          if (!arrayItems.Shirts.hasOwnProperty(key)) continue;
+            //Check if name/colours already exsist
+            color.push(arrayItems.Shirts[key].name);
+        }
+        var uniqueNames = [];
+        $.each(color, function(i, el){
+          if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+        });
+        state.COLOURS = uniqueNames;
+    },
+    ['MAIN__SORTCOLOURS'](state, color ) {
+        state.SHIRTS = [];
+        for (var key in state.SHIRTS_DEFAULT) {
+          if(state.SHIRTS_DEFAULT[key].name == color){
+            //console.log(state.SHIRTS_DEFAULT[key].name);
+            const items = [...state.SHIRTS];
+            items.push(state.SHIRTS_DEFAULT[key]);
+            state.SHIRTS  = items;
+          }
+        }
+    },
+    //Once sort has been done - make the shirt array default again
+    ['MAIN__DEFAULT_SHIRT_ARRAY'](state) {
+      state.SHIRTS = state.SHIRTS_DEFAULT;
     },
     ['MAIN__SHIRTITEMS'](state, arrayItems ) {
       state.SHIRTS = [];
-      // state.SHIRTS = arrayItems.data.Shirts;
       var k = 0;
       for (var key in arrayItems.Shirts) {
         // skip loop if the property is from prototype
@@ -115,6 +129,7 @@ export default {
         //console.log('KEY: ' + key);
         const items = [...state.SHIRTS];
         items.push(arrayItems.Shirts[key]);
+        state.SHIRTS_DEFAULT  = items;
         state.SHIRTS  = items;
       }
     },
@@ -146,21 +161,6 @@ export default {
         }
       };
       commit('MAIN__SHIRTITEMS', response );
-      /**
-                  var xmlhttp;
-      // compatible with IE7+, Firefox, Chrome, Opera, Safari
-      var XMLHttpRequest = require('xhr2');
-      xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function(){
-          if (xmlhttp.readyState == 4 && xmlhttp.status == 200){   
-            var object = JSON.parse(xmlhttp.responseText);
-            commit('MAIN__SHIRTITEMS', object );
-          }
-      }
-      //xmlhttp.open("GET", 'https://salomonsson.it/SALOCONSULTING/API/api_most_popular_tags.php', true);
-      xmlhttp.open("GET", 'http://www.salomonsson.it/SALOCONSULTING/API/f-e/mock-shirts.php', true);
-      xmlhttp.send();
-       */
     },
     ["ACTION_ITEM_CART"]({ commit },  item ) {
       commit('ADD_ITEM_CART', item );
@@ -179,8 +179,13 @@ export default {
              "7": { "id": 17, "price": 799, "inCart": false, "description": "Cusna skjorta från These Glory Days är tillverkad i ett mjukt bomullsmaterial med klassisk button-down krage och regular passform. Modellen är 187 cm och har på sig en storlek M. True to size. <br /> <br/> Rutig, halvfodrad kostymbyxa i ullmix från These Glory Days. Byxorna har två sidofickor och en mindre myntficka framtill.  Kostymbyxorna har dessutom två fickor bak och bälteshällor. T Glen Plaid Pants byxan kommer i en smal passform med nedvikt kant nedtill och slitkant.  Combine with Glen Plaid Blazer for a complete suit.", "name": "Grå",  "type": "Jumper", "size": "Mediu",     "image": "https://voltfashion.imgix.net/globalassets/productimages/7238091_590_f_h_kjerag_knit_scandinavia_dblue.jpg?auto=format&w=600"}
         }
       };
-      commit('MAIN__SORTCOLOURS', response );
+      commit('MAIN__SORTCOLOURS_NAMES', response );
     },
+
+    ["SORT_ALL_SHIRTS"]({ commit },  color ) {
+      commit('MAIN__SORTCOLOURS', color );
+    },
+
   },
   
 };
