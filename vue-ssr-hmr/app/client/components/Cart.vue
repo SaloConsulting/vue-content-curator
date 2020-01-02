@@ -2,7 +2,7 @@
   <div>
   <h1>{{header_title}}</h1>
   <div style="padding:4rem;border:1px solid black;display: flow-root;" class="container">
-    <div>
+    <div style="font-size:4rem;">
       Cart has <b>{{cart.length}}</b> and total price is <b>{{totalPriceCart}}:-</b>
     </div>
     <div v-for="o in cart" v-bind:key="o.id" :class="$style.gallery">
@@ -49,6 +49,11 @@ export default {
   },
   
   methods: {
+
+    /**
+     * Get current state and loop to collect current price
+     * @param: 
+     */
     TotalPrice() {
       var localCartArray = Array();
       localCartArray = this.$store.state.main.CART;
@@ -60,6 +65,11 @@ export default {
       }
       this.totalPriceCart = total;
     },
+
+    /**
+     * remove from cart through the state
+     * @param: object
+     */
     RemoveFromCart(shirt){
       //Update the global state cart
       this.$store.commit("REMOVE_ITEM_CART", shirt );

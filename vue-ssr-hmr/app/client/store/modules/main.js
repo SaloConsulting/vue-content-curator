@@ -1,8 +1,3 @@
-import {
-  MAIN__ITEM_DELELE,
-  MAIN__ITEM_ADD,
-  MAIN__ITEM_ADD_ASYNC,
-} from '../const/main';
 
 export default {
   state: {
@@ -11,48 +6,16 @@ export default {
     SHIRTS: [],
     SHIRTS_SORTED: [],
     COLOURS: [],
-    items: [
-      {
-        id: 1,
-        title: 'Milk',
-      },
-      {
-        id: 2,
-        title: 'Strawberry',
-      },
-      {
-        id: 3,
-        title: 'Egg',
-      },
-    ],
   },
-  // getters:{
-  //   // Compute derived state based on the current state. More like computed property.
-  //   AllShirtsCollection: state => {
-  //       return state.SHIRTS;
-  //   },
-  //   AllShirtsCollectionLength: state => {
-  //     return state.SHIRTS.length
-  //   },
-  // },
-
 
   /**
    * You never commit from any of your components / routes. It is done only from within an action, 
    * and only when you have some data to commit. Reason: commit is synchronous and may freeze your frontend till it is done.
    */
   mutations: {
-    [MAIN__ITEM_DELELE](state, { id }) {
-      state.items = state.items.filter(item => item.id !== id);
-    },
-    [MAIN__ITEM_ADD](state, { item }) {
-      const items = [...state.items];
-      items.push(item);
-      state.items = items;
-    },
+    
     ['REMOVE_ITEM_CART'](state, obj ) {
       //Remove item from cart
-      //state.CART = state.CART.filter(item => item.cartID !== obj.cartID);
       state.CART = state.CART.filter(item => item.id !== obj.id);
       //Set false to inCart the object in shirt list
       for (var key in state.SHIRTS) {
@@ -68,6 +31,7 @@ export default {
         }
       }
     },
+
     ['ADD_ITEM_CART'](state, obj ) {
       var OBJECT = {
         "cartID": Math.floor((Math.random() * 5000) + 1),
@@ -84,6 +48,7 @@ export default {
       items.push(OBJECT);
       state.CART = items;
     },
+    
     ['MAIN__SORTCOLOURS_NAMES'](state, arrayItems ) {
       var color = new Array();
       for (var key in arrayItems.Shirts) {
@@ -98,6 +63,7 @@ export default {
         });
         state.COLOURS = uniqueNames;
     },
+
     ['MAIN__SORTCOLOURS'](state, color ) {
         state.SHIRTS = [];
         for (var key in state.SHIRTS_DEFAULT) {
@@ -109,10 +75,12 @@ export default {
           }
         }
     },
+
     //Once sort has been done - make the shirt array default again
     ['MAIN__DEFAULT_SHIRT_ARRAY'](state) {
       state.SHIRTS = state.SHIRTS_DEFAULT;
     },
+    
     ['MAIN__SHIRTITEMS'](state, arrayItems ) {
       state.SHIRTS = [];
       var k = 0;
@@ -142,11 +110,6 @@ export default {
   * action. The action may be done anytime after the current tick, so that your frontend performance is not affected.
   */
   actions: {
-    [MAIN__ITEM_ADD_ASYNC]({ commit }, { item }) {
-      setTimeout(() => {
-        commit(MAIN__ITEM_ADD, { item });
-      }, 1000);
-    },
     ['GET_ALL_SHIRTS']({ commit })  {
       var response = {
         "shirtInfo": "This is the shirt fake data.",

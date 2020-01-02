@@ -6,7 +6,7 @@
       <div :class="$style.linksImage">
         <router-link to="/cart">
         <img src="https://cdn.onlinewebfonts.com/svg/img_290616.png"/>
-        <span>{{cart.length}}</span>
+        <span v-if="cart.length">{{cart.length}}</span>
         </router-link> 
       </div>
     <div :class="$style.links">
@@ -59,7 +59,7 @@ export default {
 .linksImage{
     /* background-color: red; */
     float: right;
-    padding: 1rem;
+    padding: 4rem;
 }
 .linksImage img{
     height: 3.3rem;
@@ -70,15 +70,15 @@ export default {
 }
 .linksImage span{
     position: absolute;
-    top: 38px;
-    right: 16px;
+    top: 28px;
+    right: 36px;
     background-color: yellow;
-    font-size: 1.2rem;
+    font-size: 3.2rem;
     font-weight: bold;
     border: 2px solid black;
     border-radius: 50%;
-    padding: 10px;
-    width: 20px;
+    padding: 30px;
+    width: 50px;
     text-align: center;
 }
 </style>
